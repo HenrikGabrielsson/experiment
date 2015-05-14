@@ -1,0 +1,35 @@
+header {
+	background-color:#541F14;
+	border-radius: 10px 10px 0 0;
+
+	margin:0;
+	padding:0;
+}
+
+main {	
+	min-height: 400px;
+	height: 80%;
+}
+
+#container {
+	border: 2px solid #541F14;
+	border-radius: 10px;
+	background-color:white;
+
+	padding: 0;
+
+	overflow: auto;
+}
+
+body {
+	background-color:#CC9E61;
+}
+
+
+.selected-view {
+	background-color: #CCCCCC;
+}
+
+.row {
+	margin-bottom: 20px;
+}
