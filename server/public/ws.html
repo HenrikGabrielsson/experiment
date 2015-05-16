@@ -18,15 +18,20 @@
 		    		case "script":
 		    			var script = document.createElement("script");
 		    			script.setAttribute("type", "text/javascript");
-		    			script.setAttribute("src", "data:text/javascript;base64," + json.data.substring(8));
+		    			script.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
 		    			document.getElementsByTagName("body")[0].appendChild(script);	
 		    			break;
 		    		case "style":
 		    			var style = document.createElement("link");
 		    			style.setAttribute("rel", "stylesheet");
-		    			style.setAttribute("href", "data:text/css;base64," + json.data.substring(8));
+		    			style.setAttribute("href", "data:"+json.mimeType+";base64," + json.data.substring(8));
 		    			document.getElementsByTagName("head")[0].appendChild(style);	
 		    			break;
+		    		case "image":
+		    			var dataSrc = json.path.replace("./public/", "");
+		    			var img = document.querySelector("[data-src='"+dataSrc+"']");
+		    			img.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
+		    			break;		    			
 		    	}
 
 		    	
@@ -38,7 +43,7 @@
 	<body>
 		<div id="container" class="container">
 			<header>
-				<img src="images/logo.jpg" alt="The image gallery" />
+				<img data-src="images/logo.jpg" alt="The image gallery" />
 			</header>
 
 			<nav>
@@ -55,113 +60,113 @@
 
 				<div id="gallery-view-selection" class="row">
 					<a href="#" class="full-view-link">
-						<img src="images/full_icon.png" class="full-view-image" alt="Visa stora bilder" />							
+						<img data-src="images/full_icon.png" class="full-view-image" alt="Visa stora bilder" />							
 					</a>
 					<a href="#" class="grid-view-link">
-						<img src="images/grid_icon.png" class="grid-view-image selected-view" alt="Visa rutnät av bilder" />							
+						<img data-src="images/grid_icon.png" class="grid-view-image selected-view" alt="Visa rutnät av bilder" />							
 					</a>
 				</div>
 
 				<div id="gallery">
 					<div class="row gallery-row">
-						<img src="images/gallery/1.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/2.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/3.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/1.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/2.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/3.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/4.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/5.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/6.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/4.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/5.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/6.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/7.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/8.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/9.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/7.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/8.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/9.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/10.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/11.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/12.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/10.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/11.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/12.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">							
-						<img src="images/gallery/13.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/14.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/15.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/13.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/14.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/15.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/16.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/17.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/18.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/16.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/17.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/18.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/19.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/20.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/21.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/19.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/20.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/21.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/22.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/23.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/24.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/22.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/23.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/24.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/25.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/26.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/27.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/25.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/26.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/27.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/28.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/29.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/30.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/28.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/29.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/30.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/31.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/32.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/33.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/31.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/32.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/33.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/34.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/35.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/36.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/34.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/35.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/36.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/37.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/38.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/39.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/37.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/38.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/39.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/40.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/41.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/42.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/40.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/41.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/42.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/43.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/44.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/45.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/43.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/44.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/45.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/46.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/47.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/48.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/46.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/47.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/48.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/49.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/50.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/51.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/49.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/50.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/51.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/52.jpg" class="gallery-image col-md-4" alt="galleribild" />								
-						<img src="images/gallery/53.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/54.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/52.jpg" class="gallery-image col-md-4" alt="galleribild" />								
+						<img data-src="images/gallery/53.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/54.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/55.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/56.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/57.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/55.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/56.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/57.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 					<div class="row gallery-row">
-						<img src="images/gallery/58.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/59.jpg" class="gallery-image col-md-4" alt="galleribild" />
-						<img src="images/gallery/60.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/58.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/59.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/60.jpg" class="gallery-image col-md-4" alt="galleribild" />
 					</div>
 				</div>
 			</main>
