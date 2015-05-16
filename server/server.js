@@ -110,28 +110,34 @@ var imagePaths =
 var wsServer = new ws({httpServer: httpServer});
 wsServer.on("request", function(request) {
 
-    var connection = request.accept("gallerytest", request.origin);
+    var connection = request.accept("gallery", request.origin);
 
     //serve all scripts
     scriptPaths.forEach(function(path)
     {
-        connection.sendUTF(jsonBuffer.stringify(
+        fs.readFile(path, function(error, data)
         {
-            mimeType: "text/javascript",
-            type: "script", 
-            data: fs.readFileSync(path)
-        }));        
+            connection.sendUTF(jsonBuffer.stringify(
+            {
+                mimeType: "text/javascript",
+                type: "script", 
+                data: data
+            }));   
+        }) 
     });
 
     //serve all stylesheets
     stylePaths.forEach(function(path)
     {
-        connection.sendUTF(jsonBuffer.stringify(
+        fs.readFile(path, function(error, data)
         {
-            mimeType: "text/css" ,
-            type: "style", 
-            data: fs.readFileSync(path)
-        }));        
+            connection.sendUTF(jsonBuffer.stringify(
+            {
+                mimeType: "text/css" ,
+                type: "style", 
+                data: data
+            }));     
+        });
     });
 
     //serve all images
@@ -152,12 +158,15 @@ wsServer.on("request", function(request) {
                 mimeType = "image/gif";
         }
 
-        connection.sendUTF(jsonBuffer.stringify(
+        fs.readFile(path, function(error, data)
         {
-            mimeType: mimeType,
-            type: "image", 
-            data: fs.readFileSync(path), 
-            path: path
-        }));        
+            connection.sendUTF(jsonBuffer.stringify(
+            {
+                mimeType: mimeType,
+                type: "image", 
+                data: data, 
+                path: path
+            }));    
+        });
     });
 });

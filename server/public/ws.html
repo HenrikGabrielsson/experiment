@@ -6,8 +6,7 @@
 		<title>The Image Gallery</title>
 
 		<script type="text/javascript">
-		    var fileReader = new FileReader();
-		    var socket = new WebSocket("ws://localhost:8080", "gallerytest");	
+		    var socket = new WebSocket("ws://localhost:8080", "gallery");	
 
 		    socket.onmessage = function(message)
 		    {
@@ -31,10 +30,8 @@
 		    			var dataSrc = json.path.replace("./public/", "");
 		    			var img = document.querySelector("[data-src='"+dataSrc+"']");
 		    			img.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
-		    			break;		    			
+		    			break;
 		    	}
-
-		    	
 		    };
 		</script>
 
