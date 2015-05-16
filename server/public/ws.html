@@ -6,8 +6,31 @@
 		<title>The Image Gallery</title>
 
 		<script type="text/javascript">
+		    var fileReader = new FileReader();
 		    var socket = new WebSocket("ws://localhost:8080", "gallerytest");	
 
+		    socket.onmessage = function(message)
+		    {
+		    	var json = JSON.parse(message.data)
+
+		    	switch(json.type)
+		    	{
+		    		case "script":
+		    			var script = document.createElement("script");
+		    			script.setAttribute("type", "text/javascript");
+		    			script.setAttribute("src", "data:text/javascript;base64," + json.data.substring(8));
+		    			document.getElementsByTagName("body")[0].appendChild(script);	
+		    			break;
+		    		case "style":
+		    			var style = document.createElement("link");
+		    			style.setAttribute("rel", "stylesheet");
+		    			style.setAttribute("href", "data:text/css;base64," + json.data.substring(8));
+		    			document.getElementsByTagName("head")[0].appendChild(style);	
+		    			break;
+		    	}
+
+		    	
+		    };
 		</script>
 
 	</head>
