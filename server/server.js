@@ -8,16 +8,17 @@ var fileServer = new nodeStatic.Server("./public", {cache: 0});
 
 var httpServer =  http.createServer(function (request, response) 
 {
-	//capture timestamp when first request reaches server.
-	if(request.url === "/http.html" || request.url === "/ws.html")
-	{
-		console.log(Date.now());
-	}
-
-	request.addListener("end", function () 
+    console.log(request.url);
+    //capture timestamp when first request reaches server.
+    if(request.url === "/http.html" || request.url === "/ws.html")
     {
-    	fileServer.serve(request, response);
-    }).resume();	
+        console.log(Date.now());
+    }
+
+    request.addListener("end", function () 
+    {
+        fileServer.serve(request, response);
+    }).resume();    
 
 }).listen(8080);
 
@@ -25,20 +26,22 @@ var httpServer =  http.createServer(function (request, response)
 var scriptPaths = 
 [
     "./public/scripts/jquery-2.1.4.min.js",
-    "./public/styling/bootstrap/js/bootstrap.min.js",
-    "./public/styling/foundation-5.5.2/js/vendor/jquery.js",
-    "./public/styling/foundation-5.5.2/js/vendor/modernizr.js",
+    "./public/scripts/bootstrap.min.js",
+    "./public/scripts/jquery.js",
+    "./public/scripts/modernizr.js",
     "./public/scripts/galleryScript.js"
 ];
 var stylePaths = 
 [
-    "./public/styling/bootstrap/css/bootstrap.min.css",
-    "./public/styling/bootstrap/css/bootstrap-theme.min.css",
-    "./public/styling/foundation-5.5.2/css/foundation.min.css",
-    "./public/styling/foundation-5.5.2/css/normalize.css",
+    "./public/styling/bootstrap.min.css",
+    "./public/styling/bootstrap-theme.min.css",
+    "./public/styling/foundation.min.css",
+    "./public/styling/normalize.css",
     "./public/styling/galleryStyle.mobile.css",
     "./public/styling/galleryStyle.css"
 ]
+
+var favicon = "./public/images/favicon.ico";
 
 var imagePaths = 
 [
@@ -111,6 +114,18 @@ var wsServer = new ws({httpServer: httpServer});
 wsServer.on("request", function(request) {
 
     var connection = request.accept("gallery", request.origin);
+
+
+    //serve favicon.ico
+    fs.readFile(favicon, function(error, data)
+    {
+        connection.sendUTF(jsonBuffer.stringify(
+        {
+            mimeType: "image/x-icon",
+            type: "favicon", 
+            data: data
+        }));   
+    }) 
 
     //serve all scripts
     scriptPaths.forEach(function(path)

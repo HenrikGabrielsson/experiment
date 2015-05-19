@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 
+        <link rel="shortcut icon" id="faviconLink" type="image/x-icon" href="data:image/x-icon;," />
 		<title>The Image Gallery</title>
 
 		<script type="text/javascript">
@@ -30,6 +31,10 @@
 		    			var dataSrc = json.path.replace("./public/", "");
 		    			var img = document.querySelector("[data-src='"+dataSrc+"']");
 		    			img.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
+		    			break;
+		    		case "favicon":
+		    			var favicon = document.getElementById("faviconLink");
+		    			favicon.setAttribute("href", "data:"+json.mimeType+";base64," + json.data.substring(8));
 		    			break;
 		    	}
 		    });
