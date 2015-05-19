@@ -8,7 +8,7 @@
 		<script type="text/javascript">
 		    var socket = new WebSocket("ws://localhost:8080", "gallery");	
 
-		    socket.onmessage = function(message)
+		    socket.addEventListener("message", function(message)
 		    {
 		    	var json = JSON.parse(message.data)
 
@@ -32,7 +32,7 @@
 		    			img.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
 		    			break;
 		    	}
-		    };
+		    });
 		</script>
 
 	</head>
