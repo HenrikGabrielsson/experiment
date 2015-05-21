@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+
+        <link rel="shortcut icon" id="faviconLink" type="image/x-icon" href="data:image/x-icon;," />
+		<title>The Image Gallery</title>
+
+		<script type="text/javascript">
+		    var socket = new WebSocket("ws://localhost:8080", "gallerymanyfiles");	
+
+		    //scripts and stylesheets must be loaded in order, or dependencies might break;
+			var resourceArray = new Array(10);
+			var addToResourceArray = function(resource, index)
+			{
+				resourceArray[index] = resource;
+
+				var allLoaded = true;
+				for(var i = 0; i < resourceArray.length;i++)
+				{
+					if(resourceArray[i] === undefined)
+					{
+						allLoaded = false;
+						break;
+					}
+				}
+
+				//add resources to page in order when all are loaded.
+				if(allLoaded)
+				{
+					resourceArray.forEach(function(resource)
+					{
+						document.getElementsByTagName("head")[0].appendChild(resource);	
+					});
+				}
+			}
+
+		    socket.addEventListener("message", function(message)
+		    {
+		    	var json = JSON.parse(message.data)
+
+		    	switch(json.type)
+		    	{
+		    		case "script":
+		    			var script = document.createElement("script");
+		    			script.setAttribute("type", "text/javascript");
+		    			script.async = false;
+		    			script.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
+		    			addToResourceArray(script, json.index);
+		    			break;
+		    		case "style":
+		    			var style = document.createElement("link");
+		    			style.setAttribute("rel", "stylesheet");
+		    			style.setAttribute("href", "data:"+json.mimeType+";base64," + json.data.substring(8));
+		    			addToResourceArray(style, json.index);
+		    			break;
+		    		case "image":
+		    			var dataSrc = json.path.replace("./public/", "");
+		    			var img = document.querySelector("[data-src='"+dataSrc+"']");
+		    			img.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
+		    			break;
+		    		case "favicon":
+		    			var favicon = document.getElementById("faviconLink");
+		    			favicon.setAttribute("href", "data:"+json.mimeType+";base64," + json.data.substring(8));
+		    			break;
+		    	}
+		    });
+		</script>
+
+	</head>
+
+	<body>
+		<div id="container" class="container">
+			<header>
+				<img data-src="images/logo.jpg" alt="The image gallery" />
+			</header>
+
+			<nav>
+				<ul class="nav nav-tabs">
+				  <li role="presentation" class="active"><a href="#">Start</a></li>
+				  <li role="presentation"><a href="#">Filmklipp</a></li>
+				  <li role="presentation"><a href="#">Länkar</a></li>
+				  <li role="presentation"><a href="#">Kontakt</a></li>
+				</ul>
+			</nav>
+			
+			<main>
+				<h1>Alla bilder</h1>
+
+				<div id="gallery-view-selection" class="row">
+					<a href="#" class="full-view-link">
+						<img data-src="images/full_icon.png" class="full-view-image" alt="Visa stora bilder" />							
+					</a>
+					<a href="#" class="grid-view-link">
+						<img data-src="images/grid_icon.png" class="grid-view-image selected-view" alt="Visa rutnät av bilder" />							
+					</a>
+				</div>
+
+				<div id="gallery">
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/1.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/2.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/3.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/4.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/5.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/6.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/7.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/8.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/9.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/10.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/11.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/12.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">							
+						<img data-src="images/gallery/small/13.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/14.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/15.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/16.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/17.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/18.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/19.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/20.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/21.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/22.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/23.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/24.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/25.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/26.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/27.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/28.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/29.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/30.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/31.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/32.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/33.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/34.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/35.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/36.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/37.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/38.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/39.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/40.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/41.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/42.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/43.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/44.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/45.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/46.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/47.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/48.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/49.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/50.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/51.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/52.jpg" class="gallery-image col-md-4" alt="galleribild" />								
+						<img data-src="images/gallery/small/53.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/54.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/55.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/56.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/57.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+					<div class="row gallery-row">
+						<img data-src="images/gallery/small/58.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/59.jpg" class="gallery-image col-md-4" alt="galleribild" />
+						<img data-src="images/gallery/small/60.jpg" class="gallery-image col-md-4" alt="galleribild" />
+					</div>
+				</div>
+			</main>
+
+			<footer class="col-md-12">
+				<p>Ikoner från Webalys samling <a href="http://www.webalys.com/minicons/icons-free-pack.php">Minicons</a>. Licens: <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons(BY)</a>.</p>
+				<p>Galleribilderna på denna sida är ett litet urval av bilderna på <a href="https://unsplash.com/">Unsplash.com</a>.</p>
+			</footer>
+		</div>
+
+	</body>
+
+</html>
