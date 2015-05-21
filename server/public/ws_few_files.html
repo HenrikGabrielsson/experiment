@@ -9,6 +9,17 @@
 		<script type="text/javascript">
 		    var socket = new WebSocket("ws://localhost:8080", "galleryfewfiles");	
 
+		    //take timestamp when all resources has loaded
+	    	var numberOfObjects = 35;
+		    var numberOfObjectsLoaded = 0;
+		    var onLoadCheckIfAllHasLoaded = function()
+		    {
+		    	if(++numberOfObjectsLoaded === numberOfObjects)
+		    	{
+		    		console.log(Date.now());
+		    	}
+		    }
+
 		    socket.addEventListener("message", function(message)
 		    {
 		    	var json = JSON.parse(message.data)
@@ -20,21 +31,20 @@
 		    			script.setAttribute("type", "text/javascript");
 		    			script.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
 		    			document.getElementsByTagName("body")[0].appendChild(script);	
+		    			script.addEventListener("load",onLoadCheckIfAllHasLoaded);
 		    			break;
 		    		case "style":
 		    			var style = document.createElement("link");
 		    			style.setAttribute("rel", "stylesheet");
 		    			style.setAttribute("href", "data:"+json.mimeType+";base64," + json.data.substring(8));
 		    			document.getElementsByTagName("head")[0].appendChild(style);	
+		    			style.addEventListener("load",onLoadCheckIfAllHasLoaded);
 		    			break;
 		    		case "image":
 		    			var dataSrc = json.path.replace("./public/", "");
 		    			var img = document.querySelector("[data-src='"+dataSrc+"']");
 		    			img.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
-		    			break;
-		    		case "favicon":
-		    			var favicon = document.getElementById("faviconLink");
-		    			favicon.setAttribute("href", "data:"+json.mimeType+";base64," + json.data.substring(8));
+		    			img.addEventListener("load",onLoadCheckIfAllHasLoaded);
 		    			break;
 		    	}
 		    });

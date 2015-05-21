@@ -9,6 +9,17 @@
 		<script type="text/javascript">
 		    var socket = new WebSocket("ws://localhost:8080", "gallerymanyfiles");	
 
+		    //take timestamp when all resources has loaded
+		    var numberOfObjects = 73;
+		    var numberOfObjectsLoaded = 0;
+		    var onLoadCheckIfAllHasLoaded = function()
+		    {
+		    	if(++numberOfObjectsLoaded === numberOfObjects)
+		    	{
+		    		console.log(Date.now());
+		    	}
+		    }
+
 		    //scripts and stylesheets must be loaded in order, or dependencies might break;
 			var resourceArray = new Array(10);
 			var addToResourceArray = function(resource, index)
@@ -30,7 +41,8 @@
 				{
 					resourceArray.forEach(function(resource)
 					{
-						document.getElementsByTagName("head")[0].appendChild(resource);	
+						document.getElementsByTagName("head")[0].appendChild(resource);
+						resource.addEventListener("load",onLoadCheckIfAllHasLoaded);	
 					});
 				}
 			}
@@ -58,10 +70,7 @@
 		    			var dataSrc = json.path.replace("./public/", "");
 		    			var img = document.querySelector("[data-src='"+dataSrc+"']");
 		    			img.setAttribute("src", "data:"+json.mimeType+";base64," + json.data.substring(8));
-		    			break;
-		    		case "favicon":
-		    			var favicon = document.getElementById("faviconLink");
-		    			favicon.setAttribute("href", "data:"+json.mimeType+";base64," + json.data.substring(8));
+		    			img.addEventListener("load",onLoadCheckIfAllHasLoaded);
 		    			break;
 		    	}
 		    });

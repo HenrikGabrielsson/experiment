@@ -25,7 +25,6 @@ var httpServer =  http.createServer(function (request, response)
 
 
 //All resources needed for any pages
-var favicon = "./public/images/favicon.ico";
 var scriptFile = "./public/scripts/script.js";
 var styleFile = "./public/styling/style.css";
 var fewLargeImagePaths = 
@@ -162,17 +161,6 @@ wsServer.on("request", function(request)
     {
         var connection = request.accept("gallerymanyfiles", request.origin);
 
-        //serve favicon.ico
-        fs.readFile(favicon, function(error, data)
-        {
-            connection.sendUTF(jsonBuffer.stringify(
-            {
-                mimeType: "image/x-icon",
-                type: "favicon", 
-                data: data
-            }));   
-        }) 
-
         //serve all scripts
         scriptPaths.forEach(function(path, index)
         {
@@ -237,17 +225,6 @@ wsServer.on("request", function(request)
     else if(request.requestedProtocols.indexOf("galleryfewfiles") > -1)
     {
         var connection = request.accept("galleryfewfiles", request.origin);  
-        
-        //serve favicon.ico
-        fs.readFile(favicon, function(error, data)
-        {
-            connection.sendUTF(jsonBuffer.stringify(
-            {
-                mimeType: "image/x-icon",
-                type: "favicon", 
-                data: data
-            }));   
-        })
 
         //serve script
         fs.readFile(scriptFile, function(error, data)
